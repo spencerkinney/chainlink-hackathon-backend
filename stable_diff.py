@@ -1,14 +1,8 @@
-import replicate
 from dotenv import load_dotenv
-import time
-from utils import download_image, ensure_output_directory
+from utils import process_scene_prompt
 
 # Load environment variables
 load_dotenv()
-
-# Define the output directory
-output_directory = "output"
-ensure_output_directory(output_directory)
 
 # Defining prompts in a list
 prompts = [
@@ -19,25 +13,6 @@ prompts = [
     "Adventurers standing triumphant over the defeated monster, collecting their rewards. The scene should focus on the treasure and the sense of victory, with a detailed, realistic, and vibrant color style." # Scene 5 - Collecting Rewards
 ]
 
-# Function to process each prompt
-def process_prompt(prompt):
-    output = replicate.run(
-        "stability-ai/sdxl:2b017d9b67edd2ee1401238df49d75da53c523f36e363881e057f5dc3ed3c5b2",
-        input={"prompt": prompt},
-    )
-
-    # Check if output is a list with at least one element
-    if isinstance(output, list) and len(output) > 0:
-        image_url = output[0]
-        # Generate a unique timestamped filename for each image
-        timestamp = time.strftime("%Y%m%d-%H%M%S")
-        filename = f"{output_directory}/image-{timestamp}.png"
-
-        # Download the image
-        download_image(image_url, filename)
-    else:
-        print("Unexpected output format:", output)
-
 # Iterate over each prompt and generate an image
 for prompt in prompts:
-    process_prompt(prompt)
+    process_scene_prompt(prompt)
