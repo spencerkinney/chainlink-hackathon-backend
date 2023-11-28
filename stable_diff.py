@@ -1,15 +1,14 @@
 import replicate
 from dotenv import load_dotenv
 import time
-import os
+from utils import download_image, ensure_output_directory
 
 # Load environment variables
 load_dotenv()
 
-# Ensure the output directory exists
+# Define the output directory
 output_directory = "output"
-if not os.path.exists(output_directory):
-    os.makedirs(output_directory)
+ensure_output_directory(output_directory)
 
 # Defining prompts in a list
 prompts = [
@@ -27,14 +26,15 @@ def process_prompt(prompt):
         input={"prompt": prompt},
     )
 
-    # Check if output is as expected
-    if isinstance(output, dict) and 'id' in output and 'image' in output:
+    # Check if output is a list with at least one element
+    if isinstance(output, list) and len(output) > 0:
+        image_url = output[0]
         # Generate a unique timestamped filename for each image
         timestamp = time.strftime("%Y%m%d-%H%M%S")
-        filename = f"{output_directory}/{output['id']}-{timestamp}.png"
+        filename = f"{output_directory}/image-{timestamp}.png"
 
-        # Download the result image URL and save it to a file
-        replicate.download(output["image"], filename)
+        # Download the image
+        download_image(image_url, filename)
     else:
         print("Unexpected output format:", output)
 
