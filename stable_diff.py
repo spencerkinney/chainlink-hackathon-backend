@@ -5,12 +5,13 @@ import time
 # Load environment variables
 load_dotenv()
 
-# Define your prompts in a list
+# Defining prompts in a list
 prompts = [
-    "A bustling medieval town at dawn, with adventurers in detailed medieval gear at the edge, looking at a rugged path. The art style should be a classic fantasy illustration, with muted earthy tones.",
-    "Adventurers meeting a cloaked stranger in a dense forest. The style should mimic early Dungeons & Dragons manuals, with a realistic, detailed forest and a mysterious, dark tone.",
-    "A dynamic battle scene in a classic fantasy style, showing detailed characters fighting a large beast. The art should have a high level of detail, similar to modern fantasy RPGs, with vibrant colors.",
-    "Adventurers around a treasure hoard post-battle. The art should maintain the detailed, realistic style of modern RPGs, with a mix of exhaustion and victory on the characters' faces."
+    "Adventurers at the edge of a medieval town, facing a forked path leading into the wilderness. The scene should have a classic fantasy style, with detailed characters pondering their next move.", # Scene 1 - Leaving Town
+    "A dense forest scene, with adventurers cautiously moving through. A cloaked stranger appears, sharing rumors of a monster. The art should be detailed and mysterious, capturing the tension of the unknown.", # Scene 2 - Entering the Wilderness
+    "Adventurers encountering a different stranger in the wilderness, who is sharing information about a nearby danger. The setting is a forest clearing, and the art should be realistic, with a focus on the interaction between the characters.", # Scene 3 - Meeting a Stranger
+    "A dynamic battle scene between adventurers and a fearsome monster in a forest clearing. The art should be vivid and action-packed, showcasing the intensity of the confrontation.", # Scene 4 - Monster Battle
+    "Adventurers standing triumphant over the defeated monster, collecting their rewards. The scene should focus on the treasure and the sense of victory, with a detailed, realistic style." # Scene 5 - Collecting Rewards
 ]
 
 # Iterate over each prompt and generate an image
