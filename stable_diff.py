@@ -1,9 +1,15 @@
 import replicate
 from dotenv import load_dotenv
 import time
+import os
 
 # Load environment variables
 load_dotenv()
+
+# Ensure the output directory exists
+output_directory = "output"
+if not os.path.exists(output_directory):
+    os.makedirs(output_directory)
 
 # Defining prompts in a list
 prompts = [
@@ -14,16 +20,24 @@ prompts = [
     "Adventurers standing triumphant over the defeated monster, collecting their rewards. The scene should focus on the treasure and the sense of victory, with a detailed, realistic style." # Scene 5 - Collecting Rewards
 ]
 
-# Iterate over each prompt and generate an image
-for prompt in prompts:
+# Function to process each prompt
+def process_prompt(prompt):
     output = replicate.run(
-        "stability-ai/sdxl:2b017d9b67edd2ee1401238df49d75da53c523f36e363881e057f5dc3ed3c5b2", # Model ID for Stable Diffusion XL
+        "stability-ai/sdxl:2b017d9b67edd2ee1401238df49d75da53c523f36e363881e057f5dc3ed3c5b2",
         input={"prompt": prompt},
     )
 
-    # Generate a unique timestamped filename for each image
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
-    filename = f"output/{output['id']}-{timestamp}.png"
+    # Check if output is as expected
+    if isinstance(output, dict) and 'id' in output and 'image' in output:
+        # Generate a unique timestamped filename for each image
+        timestamp = time.strftime("%Y%m%d-%H%M%S")
+        filename = f"{output_directory}/{output['id']}-{timestamp}.png"
 
-    # Download the result image URL and save it to a file
-    replicate.download(output["image"], filename)
+        # Download the result image URL and save it to a file
+        replicate.download(output["image"], filename)
+    else:
+        print("Unexpected output format:", output)
+
+# Iterate over each prompt and generate an image
+for prompt in prompts:
+    process_prompt(prompt)
