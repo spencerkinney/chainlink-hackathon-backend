@@ -96,5 +96,9 @@ def generate_image():
     return jsonify({"data": {"images": images}})
 
 
+@app.route('/')
+def home():
+    return "If you are seeing this page, that means the shit is online. if you have further issues, don't ask spencer - he probably dont care"
+
 if __name__ == "__main__":
     app.run(debug=True)
