@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import replicate
 import base64
 import requests
@@ -9,6 +10,7 @@ from dotenv import load_dotenv
 
 
 app = Flask(__name__)
+CORS(app)
 OUTPUT_DIRECTORY = "output"
 
 load_dotenv()
