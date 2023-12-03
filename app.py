@@ -5,9 +5,14 @@ import requests
 import os
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dotenv import load_dotenv
+
 
 app = Flask(__name__)
 OUTPUT_DIRECTORY = "output"
+
+load_dotenv()
+print("FLASK_ENV:", os.environ.get('FLASK_ENV'))
 
 
 def is_development_mode():
