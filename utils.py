@@ -23,12 +23,12 @@ def ensure_output_directory(directory):
 
 
 # Function to process each prompt
-def process_scene_prompt(prompt):
+def process_scene_prompt(prompt, seed=12345):
     ensure_output_directory(OUTPUT_DIRECTORY)
 
     output = replicate.run(
         "stability-ai/sdxl:2b017d9b67edd2ee1401238df49d75da53c523f36e363881e057f5dc3ed3c5b2",
-        input={"prompt": prompt},
+        input={"prompt": prompt, "seed": seed},
     )
 
     # Check if output is a list with at least one element
