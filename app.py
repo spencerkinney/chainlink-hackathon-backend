@@ -5,6 +5,7 @@ import base64
 import requests
 import os
 import time
+from openai import OpenAI
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 
@@ -96,6 +97,30 @@ def generate_image():
                 return jsonify({"error": "Error generating image"}), 500
 
     return jsonify({"data": {"images": images}})
+
+@app.route('/generate-text', methods=['POST'])
+def generate_text():
+  """Endpoint to generate text based on prompts."""
+  data = request.json
+  prompt = data.get('prompt')
+  if not prompt:
+    return jsonify({"error": "No prompt provided"}), 400
+
+  client = OpenAI(api_key='')
+
+  response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+      {"role": "system", "content": "You are a dungeons and dragons dungeon master."},
+      {"role": "user", "content": "Make a quest where the ultimate prize is a treasure chest.  The quest is presented in a choose your own adventure style adventure.  For each step, present a scenario and end with a question and 4 choices.  Only generate one question at a time and I will let you know how they answered."},
+    ]
+  )
+
+  text = []
+  print(response)
+  text.append(response.choices[0].message.content)
+
+  return jsonify({"data": {"text": text}})
 
 
 @app.route('/')
