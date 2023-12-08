@@ -7,6 +7,7 @@ import os
 import time
 from openai import OpenAI
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from multiprocessing import Pool
 from dotenv import load_dotenv
 
 
@@ -75,6 +76,11 @@ def process_scene_prompt(prompt, seed):
         return None
 
 
+def generate_image_worker(args):
+    """Worker function for processing an image generation task."""
+    prompt, seed = args
+    return process_scene_prompt(prompt, seed)
+
 @app.route('/generate-image', methods=['POST'])
 def generate_image():
     """Endpoint to generate images based on prompts."""
@@ -86,15 +92,14 @@ def generate_image():
     seed_values = [12345, 67890]  # Example seeds
     images = []
 
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        futures = [executor.submit(process_scene_prompt, prompt, seed)
-                   for seed in seed_values]
-        for future in as_completed(futures):
-            result = future.result()
-            if result:
-                images.append(result)
-            else:
-                return jsonify({"error": "Error generating image"}), 500
+    with Pool(processes=2) as pool:
+        results = pool.map(generate_image_worker, [(prompt, seed) for seed in seed_values])
+
+    for result in results:
+        if result:
+            images.append(result)
+        else:
+            return jsonify({"error": "Error generating image"}), 500
 
     return jsonify({"data": {"images": images}})
 
