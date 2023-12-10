@@ -128,6 +128,13 @@ def generate_text():
   return jsonify({"data": {"text": text}})
 
 
+@app.route('/latest-mints', methods=['GET'])
+def latest_mints():
+    """Endpoint to list the latest minted NFTs."""
+    jwt_token = os.getenv('PINATA_JWT_TOKEN')
+    metadata_urls = get_uploaded_jsons(jwt_token)
+    return jsonify({"data": metadata_urls})
+
 @app.route('/')
 def home():
     return "If you are seeing this page, that means the shit is online. if you have further issues, don't ask spencer - he probably dont care"

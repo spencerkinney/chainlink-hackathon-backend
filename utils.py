@@ -42,3 +42,23 @@ def process_scene_prompt(prompt, seed=12345):
         download_image(image_url, filename)
     else:
         print("Unexpected output format:", output)
+
+
+def get_uploaded_jsons(jwt_token):
+    url = "https://api.pinata.cloud/data/pinList"
+    headers = {'Authorization': f'Bearer {jwt_token}'}
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        pin_data = response.json()
+        json_files_urls = [
+            f"https://ipfs.io/ipfs/{pin['ipfs_pin_hash']}" 
+            for pin in pin_data['rows'] 
+            if pin.get('metadata') and pin['metadata'].get('name') 
+            and isinstance(pin['metadata']['name'], str) 
+            and pin['metadata']['name'].endswith('.json')
+        ]
+        return json_files_urls
+    else:
+        # Handle error accordingly
+        return []
