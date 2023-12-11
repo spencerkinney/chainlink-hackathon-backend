@@ -29,8 +29,8 @@ def test_generate_image(server_url, prompt):
         print(f"An error occurred: {err}")
 
 if __name__ == "__main__":
-    #server_url = "http://127.0.0.1:5000"
+    server_url = "http://127.0.0.1:5000"
     #server_url = "https://stablediff-664a3266e9c5.herokuapp.com"
-    server_url = "http://sd-dev.us-east-1.elasticbeanstalk.com"
+    #server_url = "http://sd-dev.us-east-1.elasticbeanstalk.com"
     test_prompt = "test"
     test_generate_image(server_url, test_prompt)

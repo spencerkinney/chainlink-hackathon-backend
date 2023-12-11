@@ -20,12 +20,12 @@ def upload_to_pinata(filepath, jwt_token):
 # Function to create a JSON file for NFT metadata
 def create_metadata_file(image_url, filename):
     metadata = {
-        "name": "Legendary Dagger NFT",
-        "description": "A unique NFT representing a Legendary Dagger.",
+        "name": "Rare Necklace NFT",
+        "description": "A unique NFT representing a Rare Necklace.",
         "image": image_url,
         "attributes": [
-            {"trait_type": "Category", "value": "weapon"},
-            {"trait_type": "Loot", "value": "legendary dagger"}
+            {"trait_type": "Category", "value": "wealth"},
+            {"trait_type": "Loot", "value": "rare necklace"}
         ]
     }
     with open(filename, 'w') as file:
@@ -35,14 +35,14 @@ def create_metadata_file(image_url, filename):
 jwt_token = os.getenv('PINATA_JWT_TOKEN')
 
 # Path to your NFT image file
-image_file_path = 'ipfs/files/img/legendary-dagger.png'  # Update this with your actual image file path
+image_file_path = 'ipfs/files/img/rare-necklace.jpeg'  # Update this with your actual image file path
 
 # Upload the NFT image
 image_response = upload_to_pinata(image_file_path, jwt_token)
 image_url = f"https://ipfs.io/ipfs/{image_response['IpfsHash']}"
 
 # Path for the metadata JSON file
-metadata_file_path = 'legendary-dagger-metadata.json'  # You can choose any filename or path
+metadata_file_path = 'rare-necklace-metadata.json'  # You can choose any filename or path
 
 # Create and save the metadata JSON file
 create_metadata_file(image_url, metadata_file_path)

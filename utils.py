@@ -2,6 +2,8 @@ import replicate
 import requests
 import os
 import time
+import logging
+
 
 # Define the output directory
 OUTPUT_DIRECTORY = "output"
@@ -41,7 +43,7 @@ def process_scene_prompt(prompt, seed=12345):
         # Download the image
         download_image(image_url, filename)
     else:
-        print("Unexpected output format:", output)
+        logging.error("Unexpected output format: %s", output)
 
 
 def get_uploaded_jsons(jwt_token):
