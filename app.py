@@ -95,7 +95,7 @@ def generate_image():
     if not prompt:
         return jsonify({"error": "No prompt provided"}), 400
 
-    seed_values = [random.random(), random.random()]  # Example seeds
+    seed_values = [random.randint(1, 10000), random.randint(1, 10000)]  # Example seeds
     images = []
 
     with Pool(processes=2) as pool:
