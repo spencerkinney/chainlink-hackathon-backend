@@ -11,6 +11,7 @@ from multiprocessing import Pool
 from dotenv import load_dotenv
 from utils import get_uploaded_jsons
 import logging
+import random
 
 
 app = Flask(__name__)
@@ -94,7 +95,7 @@ def generate_image():
     if not prompt:
         return jsonify({"error": "No prompt provided"}), 400
 
-    seed_values = [-1, -1]  # Example seeds
+    seed_values = [random.random(), random.random()]  # Example seeds
     images = []
 
     with Pool(processes=2) as pool:
