@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flask_debug import Debug
 import replicate
 import base64
 import requests
@@ -15,10 +14,8 @@ import logging
 
 
 app = Flask(__name__)
-Debug(app)
 CORS(app)
 OUTPUT_DIRECTORY = "output"
-logging.basicConfig(level=logging.ERROR)
 
 
 
